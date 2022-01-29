@@ -1,5 +1,21 @@
 # astro
 
+## 0.23.0
+
+### Minor Changes
+
+- [#2471](https://github.com/withastro/astro/pull/2471) [`c9bb1147`](https://github.com/withastro/astro/commit/c9bb1147cbfae20e3ecdf29ef2866a183b3b18e3) Thanks [@FredKSchott](https://github.com/FredKSchott)! - Standardize trailing subpath behavior in config.
+
+  Most users are not aware of the subtle differences between `/foo` and `/foo/`. Internally, we have to handle both which means that we are constantly worrying about the format of the URL, needing to add/remove trailing slashes when we go to work with this property, etc. This change transforms all `site` values to use a trailing slash internally, which should help reduce bugs for both users and maintainers.
+
+### Patch Changes
+
+- [#2486](https://github.com/withastro/astro/pull/2486) [`6bd165f8`](https://github.com/withastro/astro/commit/6bd165f84cd3a1550b29fec539af814360c87f54) Thanks [@matthewp](https://github.com/matthewp)! - Fix for the static build when project contains a space
+
+* [#2471](https://github.com/withastro/astro/pull/2471) [`c9bb1147`](https://github.com/withastro/astro/commit/c9bb1147cbfae20e3ecdf29ef2866a183b3b18e3) Thanks [@FredKSchott](https://github.com/FredKSchott)! - Respect subpath URL paths in the fetchContent url property.
+
+  This fixes an issue where fetchContent() URL property did not include the buildOptions.site path in it.
+
 ## 0.22.20
 
 ### Patch Changes
@@ -1202,10 +1218,10 @@ For convenience, you may now also move your `astro.config.js` file to a top-leve
 
   ```js
   export default {
-    markdownOptions: {
-      remarkPlugins: ['remark-slug', ['remark-autolink-headings', { behavior: 'prepend' }]],
-      rehypePlugins: ['rehype-slug', ['rehype-autolink-headings', { behavior: 'prepend' }]],
-    },
+  	markdownOptions: {
+  		remarkPlugins: ['remark-slug', ['remark-autolink-headings', { behavior: 'prepend' }]],
+  		rehypePlugins: ['rehype-slug', ['rehype-autolink-headings', { behavior: 'prepend' }]],
+  	},
   };
   ```
 
@@ -1225,10 +1241,10 @@ For convenience, you may now also move your `astro.config.js` file to a top-leve
 
   ```js
   export default {
-    name: '@matthewp/my-renderer',
-    server: './server.js',
-    client: './client.js',
-    hydrationPolyfills: ['./my-polyfill.js'],
+  	name: '@matthewp/my-renderer',
+  	server: './server.js',
+  	client: './client.js',
+  	hydrationPolyfills: ['./my-polyfill.js'],
   };
   ```
 
