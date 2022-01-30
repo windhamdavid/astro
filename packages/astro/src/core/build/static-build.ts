@@ -182,7 +182,7 @@ async function ssrBuild(opts: StaticBuildOptions, internals: BuildInternals, inp
 		root: viteConfig.root,
 		envPrefix: 'PUBLIC_',
 		server: viteConfig.server,
-		base: astroConfig.buildOptions.site ? fileURLToPath(new URL(astroConfig.buildOptions.site)) : '/',
+		base: astroConfig.buildOptions.site ? (new URL(astroConfig.buildOptions.site)).pathname : '/',
 		ssr: viteConfig.ssr,
 	} as ViteConfigWithSSR);
 }
@@ -223,7 +223,7 @@ async function clientBuild(opts: StaticBuildOptions, internals: BuildInternals, 
 		root: viteConfig.root,
 		envPrefix: 'PUBLIC_',
 		server: viteConfig.server,
-		base: astroConfig.buildOptions.site ? fileURLToPath(new URL(astroConfig.buildOptions.site)) : '/',
+		base: astroConfig.buildOptions.site ? (new URL(astroConfig.buildOptions.site)).pathname : '/',
 	});
 }
 
