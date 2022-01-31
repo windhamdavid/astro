@@ -48,11 +48,12 @@ async function resolveRenderer(viteServer: vite.ViteDevServer, renderer: string,
 	// The other entrypoints need to be loaded through Vite.
 	const {
 		default: { name, client, polyfills, hydrationPolyfills, server },
-	} = await import(resolveDependency(renderer, astroConfig));
-
+	} = (typeof renderer === 'string' ? await import(resolveDependency(renderer, astroConfig)) : (renderer));
+	
+	console.log(renderer);
 	resolvedRenderer.name = name;
-	if (client) resolvedRenderer.source = path.posix.join(renderer, client);
-	resolvedRenderer.serverEntry = path.posix.join(renderer, server);
+	if (client) resolvedRenderer.source = path.posix.join(`@astrojs/renderer-preact`, client);
+	resolvedRenderer.serverEntry = path.posix.join(`@astrojs/renderer-preact`, server);
 	if (Array.isArray(hydrationPolyfills)) resolvedRenderer.hydrationPolyfills = hydrationPolyfills.map((src: string) => path.posix.join(renderer, src));
 	if (Array.isArray(polyfills)) resolvedRenderer.polyfills = polyfills.map((src: string) => path.posix.join(renderer, src));
 	const { url } = await viteServer.moduleGraph.ensureEntryFromUrl(resolvedRenderer.serverEntry);
@@ -68,7 +69,7 @@ async function resolveRenderers(viteServer: vite.ViteDevServer, astroConfig: Ast
 	const renderers = await Promise.all(
 		ids.map((renderer) => {
 			if (cache.has(renderer)) return cache.get(renderer)!;
-			let promise = resolveRenderer(viteServer, renderer, astroConfig);
+			let promise =  resolveRenderer(viteServer, renderer, astroConfig);
 			cache.set(renderer, promise);
 			return promise;
 		})

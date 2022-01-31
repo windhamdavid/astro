@@ -27,7 +27,6 @@ const lang = currentPage && getLanguageFromURL(currentPage);
 		{KNOWN_LANGUAGE_CODES.length > 1 && <LanguageSelect lang={lang} client:idle />}
 		{CONFIG.ALGOLIA && (
 			<div class="search-item">
-				<Search client:idle />
 			</div>
 		)}
 	</nav>

@@ -47,7 +47,7 @@ async function importJSXRenderers(rendererNames: string[]): Promise<Map<string, 
 	const renderers = new Map<string, Renderer>();
 	await Promise.all(
 		rendererNames.map((name) =>
-			import(name).then(({ default: renderer }) => {
+			(typeof name === 'string' ? import(name) : Promise.resolve(name)).then(({ default: renderer }) => {
 				if (!renderer.jsxImportSource) return;
 				renderers.set(renderer.jsxImportSource, renderer);
 			})

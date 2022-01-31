@@ -7,6 +7,7 @@ import * as colors from 'kleur/colors';
 import fs from 'fs';
 import yargs from 'yargs-parser';
 import { z } from 'zod';
+import {applyIntegrations, loadIntegrations} from '../integrations/index.js';
 import { defaultLogDestination } from '../core/logger.js';
 import build from '../core/build/index.js';
 import devServer from '../core/dev/index.js';
@@ -38,6 +39,7 @@ function printHelp() {
   --help						Show this help message.
 `);
 }
+
 
 /** Display --version flag */
 async function printVersion() {
@@ -93,6 +95,9 @@ export async function cli(args: string[]) {
 		throwAndExit(err);
 		return;
 	}
+
+const int = await loadIntegrations(config);
+await applyIntegrations(config, int);
 
 	switch (cmd) {
 		case 'dev': {

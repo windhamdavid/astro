@@ -76,7 +76,7 @@ export async function createVite(inlineConfig: ViteConfigWithSSR, { astroConfig,
 	// Add in Astro renderers, which will extend the base config
 	for (const name of astroConfig.renderers) {
 		try {
-			const { default: renderer } = await import(resolveDependency(name, astroConfig));
+			const { default: renderer } = typeof name === 'string' ? await import(resolveDependency(name, astroConfig)) : name;
 			if (!renderer) continue;
 			// if a renderer provides viteConfig(), call it and pass in results
 			if (renderer.viteConfig) {
